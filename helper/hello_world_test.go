@@ -2,10 +2,34 @@ package helper
 
 import (
 	"fmt"
+	"testing"
+
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"testing"
 )
+
+func TestSubTest(t *testing.T) {
+	t.Run("Arief", func(t *testing.T) {
+		result := HelloWorld("Arief")
+		require.Equal(t, "Hello Arief", result, "Result must be 'Hello Arief'")
+	})
+	t.Run("DB", func(t *testing.T) {
+		result := "Database"
+		if(result == "Database") {
+			t.Log("Hello Database")
+		}else{
+			t.Fail()
+		}
+	})
+}
+
+func TestMain(m *testing.M) {
+	//before
+	fmt.Println("BEFORE UNIT TEST")
+	m.Run()
+	//after
+	fmt.Println("AFTER UNIT TEST")
+}
 
 func TestHelloWorldAssert(t *testing.T) {
 	result := HelloWorld("Arief ganteng")
