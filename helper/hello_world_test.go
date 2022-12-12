@@ -15,9 +15,9 @@ func TestSubTest(t *testing.T) {
 	})
 	t.Run("DB", func(t *testing.T) {
 		result := "Database"
-		if(result == "Database") {
+		if result == "Database" {
 			t.Log("Hello Database")
-		}else{
+		} else {
 			t.Fail()
 		}
 	})
@@ -57,4 +57,37 @@ func TestHelloWorldFail(t *testing.T) {
 		t.Fatal("Harusnya Hello Eko")
 	}
 	fmt.Println("TestHelloWorldFail done")
+}
+
+func TestHelloWorldArief(t *testing.T) {
+	result := HelloWorld("Arief")
+	if result != "Hello Arief" {
+		t.Fatal("Harusnya Hello Arief")
+	}
+	fmt.Println("TestHelloWorldFail done")
+}
+
+func TestHelloWorldTable(t *testing.T) {
+	tests := []struct {
+		name     string
+		request  string
+		expected string
+	}{
+		{
+			name:     "HelloWord(Arief)",
+			request:  "Arief",
+			expected: "Hello Arief",
+		}, {
+			name:     "HelloWord(Kurniawan)",
+			request:  "Kurniawan",
+			expected: "Hello Kurniawan",
+		},
+	}
+
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			result := HelloWorld(test.request)
+			require.Equal(t, test.expected, result)
+		})
+	}
 }
