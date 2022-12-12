@@ -1,6 +1,7 @@
 package helper
 
 import (
+	"errors"
 	"fmt"
 	"testing"
 
@@ -88,6 +89,60 @@ func TestHelloWorldTable(t *testing.T) {
 		t.Run(test.name, func(t *testing.T) {
 			result := HelloWorld(test.request)
 			require.Equal(t, test.expected, result)
+		})
+	}
+}
+
+type transferRequest struct {
+	amount               float64
+	currency             string
+	originAccountID      string
+	destinationAccountID string
+}
+
+func validateTransferRequest(request transferRequest) error {
+	if request.amount <= 0 {
+		return errors.New("invalid amount")
+	}
+
+	if request.currency != "USD" {
+		return errors.New("invalid currency: must be USD")
+	}
+
+	if request.originAccountID == "" {
+		return errors.New("empty origin account ID")
+	}
+
+	if request.destinationAccountID == "" {
+		return errors.New("empty destination account ID")
+	}
+
+	return nil // request is valid so we return nil
+}
+
+func TestErrorTable(t *testing.T) {
+	type errorTestCases struct {
+		description string
+		input       transferRequest
+		expected    string
+	}
+
+	for _, scenario := range []errorTestCases{
+		{
+			description: "invalid amount",
+			input: transferRequest{
+				0,
+				"USD",
+				"checking",
+				"saving",
+			},
+			expected: "invalid amount",
+		},
+	} {
+		t.Run(scenario.description, func(t *testing.T) {
+			err := validateTransferRequest(scenario.input)
+			require.Error(t, err)
+			assert.Equal(t, scenario.expected, err.Error())
 		})
 	}
 }
