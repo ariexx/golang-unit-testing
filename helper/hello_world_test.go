@@ -21,6 +21,37 @@ func BenchmarkHelloKurniawan(b *testing.B) {
 	}
 }
 
+func BenchmarkTable(b *testing.B) {
+	benchmarks := []struct {
+		name    string
+		request string
+	}{
+		{
+			name:    "Arief",
+			request: "Arief",
+		},
+		{
+			name:    "Kurniawan",
+			request: "Kurniawan",
+		},
+		{
+			name:    "MuhammadArief",
+			request: "MuhammadArief",
+		},
+		{
+			name:    "EkoKurniawanKhannedy",
+			request: "EkoKurniawanKhannedy",
+		},
+	}
+	for _, benchmark := range benchmarks {
+		b.Run(benchmark.name, func(b *testing.B) {
+			for i := 0; i < b.N; i++ {
+				HelloWorld(benchmark.request)
+			}
+		})
+	}
+}
+
 func BenchmarkSub(b *testing.B) {
 	b.Run("Arief", func(b *testing.B) {
 		for i := 0; i < b.N; i++ {
